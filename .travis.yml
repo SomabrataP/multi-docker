@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t smbrtprmnk/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true smbrtprmnk/react-test npm test
+
+after_success:
+  - docker build -t smbrtprmnk/multi-client ./client
+  - docker build -t smbrtprmnk/multi-nginx ./nginx
+  - docker build -t smbrtprmnk/multi-server ./server
+  - docker build -t smbrtprmnk/multi-worker ./worker 
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push images to docker hub
+  - docker push smbrtprmnk/multi-client
+  - docker push smbrtprmnk/multi-nginx
+  - docker push smbrtprmnk/multi-server
+  - docker push smbrtprmnk/multi-worker
