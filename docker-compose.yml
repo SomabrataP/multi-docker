@@ -9,13 +9,13 @@ services:
       - '80:80'
 
 
-  postgres: 
-    image: 'postgres:latest'
-    environment:
-      - POSTGRES_PASSWORD=postgres_password
+  # postgres: 
+  #   image: 'postgres:latest'
+  #   environment:
+  #     - POSTGRES_PASSWORD=postgres_password
 
-  redis:
-    image: 'redis:latest'
+  # redis:
+  #   image: 'redis:latest'
 
   server:
     image: "smbrtprmnk/multi-server"
